@@ -1,32 +1,61 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <h1>Hello World</h1>
+    <p>{{message}}</p> <!-- data -->
+    <p>{{worldHello}}</p> <!-- computed -->
+    <div v-if="isActive == true"> <!-- data, v-if, v-else -->
+      This is Active
     </div>
-    <router-view/>
+    <div v-else>
+      This is Deactive
+    </div>
+    <button @click="isActive = !isActive">IsActive</button>
+    <div id="list"> <!-- data, v-for -->
+      <ul>
+        <li v-for="st in student">
+          {{st.name}}
+        </li>
+      </ul>
+    </div>
+    <button @click="helloWorld">Click</button> <!-- methods -->
+    <Student :message="message" @changeMessage="message = 'dac'"/> <!-- components -->
   </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import Student from './views/Student.vue' //components
 
-#nav {
-  padding: 30px;
+export default {
+  components:{ //components
+    Student
+  },
+  data(){ //data
+    return{
+   
+      message: 'Hello World',
+      isActive: true,
+      student: [
+        {name: 'nguyen'},
+        {name: 'huu'},
+        {name: 'dac'}
+      ]
+    }
+  },
+  methods:{ //methods(cac phuong thuc duoc thuc thi khi duoc goi den)
+    helloWorld(){
+      this.message += ' dac',
+      alert('Hello World')
+    }
+  },
+  computed:{ //computed(khong co tham so dau vao, nen dung voi data co san trong component)
+    worldHello(){
+      return this.message + ' dac'
+    }
+  },
+  watch:{   //watch message(quan sat su thay doi cua message, neu message thay doi thi thuc thi lenh)
+    message(){
+      alert('message changed')
+    }
+  }
 }
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>
